@@ -160,6 +160,6 @@ mean(AMD.msi.raw[AMD.msi.raw$weekday == "weekend",]$steps)
 ```
 
 ## Conclusion
-A conclusion we might take is that the analyzed person has a job with lots of sitting, or similar, and that he uses it's weekends to get active. So this could be the pattern of a office worker or student. It would be interesting to compare more activity measurements from those two groups side by side, in order to be more precise in guessing the occupation.
+A conclusion we might take is that the analyzed person has a job with lots of sitting, or similar, and that he uses his weekends to get active. So this could be the pattern of a office worker or student. It would be interesting to compare more activity measurements from those two groups side by side, in order to be more precise in guessing the occupation.
 
-Furthermore, it is interesting to see, that early in the day there is a peak in the data, regardless of whether we are analyzing weekdays or weekends. This might indicate some special activity during that period, e.g. going out for jogging.
+Furthermore, it is interesting to see that early in the day there is a peak in the data, regardless of whether we are analyzing weekdays or weekends. This might indicate some special activity during that period, e.g. going out for sports.
