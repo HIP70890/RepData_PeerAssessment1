@@ -11,7 +11,7 @@ Sys.setlocale(category = "LC_ALL", locale = "en_US.UTF-8")
 ```
 
 ## Loading and preprocessing the data
-To load the data into the R environment, I am going to take the contents from the Github branch as a starting point, which includes the activity monitoring data inside a zip-compressed file. 
+To load the data into the R environment, I am going to take the contents from the GitHub branch as a starting point, which includes the activity monitoring data inside a zip-compressed file. 
 
 The following steps have to be performed from there:
 
@@ -77,6 +77,13 @@ qplot(interval, steps,
       xlab = "Interval",
       ylab = "Mean Number of Steps")
 ```
+
+Now we want to find the interval with the highest mean number of steps over all days.
+```{r}
+steps_max <- AMD.msi.raw[AMD.msi.raw$steps == max(AMD.msi.raw$steps), ]
+steps_max
+```
+Interval `r steps_max$interval` has the most steps on an average over all days.
 
 ## Imputing missing values
 
@@ -162,4 +169,4 @@ mean(AMD.msi.raw[AMD.msi.raw$weekday == "weekend",]$steps)
 ## Conclusion
 A conclusion we might take is that the analyzed person has a job with lots of sitting, or similar, and that he uses his weekends to get active. So this could be the pattern of a office worker or student. It would be interesting to compare more activity measurements from those two groups side by side, in order to be more precise in guessing the occupation.
 
-Furthermore, it is interesting to see that early in the day there is a peak in the data, regardless of whether we are analyzing weekdays or weekends. This might indicate some special activity during that period, e.g. going out for sports.
+Furthermore, it is interesting to see that early in the day (around interval `r steps_max$interval`) there is a peak in the data, regardless of whether we are analyzing weekdays or weekends. This might indicate some special activity during that period, e.g. going out for sports.

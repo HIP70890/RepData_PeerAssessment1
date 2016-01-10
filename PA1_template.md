@@ -3,7 +3,7 @@ Please note, that to implement the plotting in this report, the `ggplot2` librar
 
 
 ## Loading and preprocessing the data
-To load the data into the R environment, I am going to take the contents from the Github branch as a starting point, which includes the activity monitoring data inside a zip-compressed file. 
+To load the data into the R environment, I am going to take the contents from the GitHub branch as a starting point, which includes the activity monitoring data inside a zip-compressed file. 
 
 The following steps have to be performed from there:
 
@@ -77,6 +77,19 @@ qplot(interval, steps, data = AMD.msi.raw, geom = c("line"), main = "Average Num
 
 ![](PA1_template_files/figure-html/unnamed-chunk-6-1.png) 
 
+Now we want to find the interval with the highest mean number of steps over all days.
+
+```r
+steps_max <- AMD.msi.raw[AMD.msi.raw$steps == max(AMD.msi.raw$steps), ]
+steps_max
+```
+
+```
+##     interval    steps
+## 104      835 206.1698
+```
+Interval 835 has the most steps on an average over all days.
+
 ## Imputing missing values
 
 ### Identify incomplete observations
@@ -143,7 +156,7 @@ qplot(AMD.aggregated.cleaned$steps, geom = "histogram", binwidth = 1000, main = 
     xlab = "Number of steps", ylab = "Number of days with specific steps")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-9-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-10-1.png) 
 
 ### Comparison of the Mean and Median
 Comparing the two analysis, is straight forward:
@@ -185,7 +198,7 @@ qplot(interval, steps, data = AMD.msi.raw, geom = c("line"), facets = weekday ~
     xlab = "Interval", ylab = "Mean Number of Steps")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-11-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-12-1.png) 
 The intervals on weekdays have less number of steps on an average in some ranges of the day, while weekend days show more activity distributed throughout the day. As we can see, the weekend has a higher mean activity, than the week.
 
 ```r
@@ -205,6 +218,6 @@ mean(AMD.msi.raw[AMD.msi.raw$weekday == "weekend", ]$steps)
 ```
 
 ## Conclusion
-A conclusion we might take is that the analyzed person has a job with lots of sitting, or similar, and that he uses it's weekends to get active. So this could be the pattern of a office worker or student. It would be interesting to compare more activity measurements from those two groups side by side, in order to be more precise in guessing the occupation.
+A conclusion we might take is that the analyzed person has a job with lots of sitting, or similar, and that he uses his weekends to get active. So this could be the pattern of a office worker or student. It would be interesting to compare more activity measurements from those two groups side by side, in order to be more precise in guessing the occupation.
 
-Furthermore, it is interesting to see, that early in the day there is a peak in the data, regardless of whether we are analyzing weekdays or weekends. This might indicate some special activity during that period, e.g. going out for jogging.
+Furthermore, it is interesting to see that early in the day (around interval 835) there is a peak in the data, regardless of whether we are analyzing weekdays or weekends. This might indicate some special activity during that period, e.g. going out for sports.
