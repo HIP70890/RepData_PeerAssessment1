@@ -1,5 +1,5 @@
 # Reproducible Research: Peer Assessment 1
-Please note, that to implement the ploting in this report, the `ggplot` library has been used. For all code snipets below, this library is already available.
+Please note, that to implement the plotting in this report, the `ggplot2` library has been used. For all code snippets below, this library is already available.
 
 
 ## Loading and preprocessing the data
@@ -119,7 +119,11 @@ Since I already have identified the incomplete cases (see above), I need to iter
 
 
 ```r
+# Create a copy of the data set, in order to keep the original
 AMD.data.cleaned <- AMD.data.raw
+
+# Cycle through those rows in the set, which have an incomplete observation
+# Assign the mean (calculated above) to the 'steps' variable of that row
 for (row in which(!cases.quality)) {
     i <- AMD.data.cleaned[row, c("interval")]
     AMD.data.cleaned[row, c("steps")] <- AMD.msi.raw[AMD.msi.raw$interval == 
@@ -167,16 +171,18 @@ We can see that the impact is the mean staying unchanged, while the median has s
 The patterns where analyzed on the mean number of steps per interval of all days. I will reuse the that data set and separate it into weekdays and weekend sets.
 
 ```r
-AMD.data.raw <- cbind(AMD.data.raw, weekday = ifelse(weekdays(AMD.data.raw$date, 
+# attach a now variable to the data set, with a factor 'weekday/weekend'.
+# Use the date variable to derive it.
+AMD.data.raw <- cbind(AMD.data.raw, weekday = ifelse(!weekdays(AMD.data.raw$date, 
     abbreviate = TRUE) %in% c("Sat", "Sun"), "weekday", "weekend"))
+# Create the mean steps per interval dataset, including the weekday factor
 AMD.msi.raw <- aggregate(steps ~ interval + weekday, data = AMD.data.raw, mean)
 ```
 
 ### Weekday Pattern Activity
-Strangely, the weekdays have less number of steps on an average, while weekend days show more activity.
+The intervals on weekdays have less number of steps on an average in some ranges of the day, while weekend days show more activity throughout of the day.
 
 ```r
-library(ggplot2)
 qplot(interval, steps, data = AMD.msi.raw, geom = c("line"), facets = weekday ~ 
     ., main = "Average Number of Steps per Interval (Clustered by Weekday vs. Weekend)", 
     xlab = "Interval", ylab = "Mean Number of Steps")
@@ -185,6 +191,6 @@ qplot(interval, steps, data = AMD.msi.raw, geom = c("line"), facets = weekday ~
 ![](PA1_template_files/figure-html/unnamed-chunk-12-1.png) 
 
 ## Conclusion
-A conclusion we might take, is that the analyzed person has a office job, or similar, and that it uses it's weekends to get active. This could be the pattern of a office worker or student. It would be interesting to compare more activity measurements from those two groups.
+A conclusion we might take is that the analyzed person has a job with lots of sitting, or similar, and that he uses it's weekends to get active. So this could be the pattern of a office worker or student. It would be interesting to compare more activity measurements from those two groups side by side, in order to be more precise in guessing the occupation.
 
 Furthermore, it is interesting to see, that early in the day there is a peak in the data, regardless of whether we are analyzing weekdays or weekends. This might indicate some special activity during that period, e.g. going out for jogging.
