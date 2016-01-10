@@ -168,27 +168,41 @@ summary(AMD.aggregated.cleaned$steps)
 We can see that the impact is the mean staying unchanged, while the median has shifted slightly upward, as for 1st and 3rd quantiles.
 
 ## Differences in Activity Patterns Weekdays vs. Weekends?
-The patterns where analyzed on the mean number of steps per interval of all days. I will reuse the that data set and separate it into weekdays and weekend sets.
+The patterns were analyzed on the mean number of steps per interval of all days. We will now create a factor variable to identify those dates which are either weekdays or weekend.
 
 ```r
 # attach a now variable to the data set, with a factor 'weekday/weekend'.
 # Use the date variable to derive it.
 AMD.data.raw <- cbind(AMD.data.raw, weekday = ifelse(!weekdays(AMD.data.raw$date, 
     abbreviate = TRUE) %in% c("Sat", "Sun"), "weekday", "weekend"))
+
 # Create the mean steps per interval dataset, including the weekday factor
 AMD.msi.raw <- aggregate(steps ~ interval + weekday, data = AMD.data.raw, mean)
-```
 
-### Weekday Pattern Activity
-The intervals on weekdays have less number of steps on an average in some ranges of the day, while weekend days show more activity throughout of the day.
-
-```r
+# Create the plot, clustered by the 'weekday' variable
 qplot(interval, steps, data = AMD.msi.raw, geom = c("line"), facets = weekday ~ 
     ., main = "Average Number of Steps per Interval (Clustered by Weekday vs. Weekend)", 
     xlab = "Interval", ylab = "Mean Number of Steps")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-12-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-11-1.png) 
+The intervals on weekdays have less number of steps on an average in some ranges of the day, while weekend days show more activity distributed throughout the day. As we can see, the weekend has a higher mean activity, than the week.
+
+```r
+mean(AMD.msi.raw[AMD.msi.raw$weekday == "weekday", ]$steps)
+```
+
+```
+## [1] 35.33796
+```
+
+```r
+mean(AMD.msi.raw[AMD.msi.raw$weekday == "weekend", ]$steps)
+```
+
+```
+## [1] 43.07837
+```
 
 ## Conclusion
 A conclusion we might take is that the analyzed person has a job with lots of sitting, or similar, and that he uses it's weekends to get active. So this could be the pattern of a office worker or student. It would be interesting to compare more activity measurements from those two groups side by side, in order to be more precise in guessing the occupation.
