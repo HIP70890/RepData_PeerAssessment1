@@ -167,8 +167,8 @@ We can see that the impact is the mean staying unchanged, while the median has s
 The patterns where analyzed on the mean number of steps per interval of all days. I will reuse the that data set and separate it into weekdays and weekend sets.
 
 ```r
-AMD.data.raw <- cbind(AMD.data.raw, weekday = !(weekdays(AMD.data.raw$date, 
-    abbreviate = TRUE) %in% c("Sat", "Sun")))
+AMD.data.raw <- cbind(AMD.data.raw, weekday = ifelse(weekdays(AMD.data.raw$date, 
+    abbreviate = TRUE) %in% c("Sat", "Sun"), "weekday", "weekend"))
 AMD.msi.raw <- aggregate(steps ~ interval + weekday, data = AMD.data.raw, mean)
 ```
 
